@@ -1,0 +1,11 @@
+C:\TFS\InjectionByExample\obj\Debug\netcoreapp2.1\InjectionByExample.csprojAssemblyReference.cache
+C:\TFS\InjectionByExample\obj\Debug\netcoreapp2.1\InjectionByExample.csproj.CoreCompileInputs.cache
+C:\TFS\InjectionByExample\obj\Debug\netcoreapp2.1\InjectionByExample.AssemblyInfoInputs.cache
+C:\TFS\InjectionByExample\obj\Debug\netcoreapp2.1\InjectionByExample.AssemblyInfo.cs
+C:\TFS\InjectionByExample\bin\Debug\netcoreapp2.1\InjectionByExample.deps.json
+C:\TFS\InjectionByExample\bin\Debug\netcoreapp2.1\InjectionByExample.runtimeconfig.json
+C:\TFS\InjectionByExample\bin\Debug\netcoreapp2.1\InjectionByExample.runtimeconfig.dev.json
+C:\TFS\InjectionByExample\bin\Debug\netcoreapp2.1\InjectionByExample.dll
+C:\TFS\InjectionByExample\bin\Debug\netcoreapp2.1\InjectionByExample.pdb
+C:\TFS\InjectionByExample\obj\Debug\netcoreapp2.1\InjectionByExample.dll
+C:\TFS\InjectionByExample\obj\Debug\netcoreapp2.1\InjectionByExample.pdb
