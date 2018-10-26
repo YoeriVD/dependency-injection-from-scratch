@@ -22,7 +22,9 @@ namespace InjectionByExample
 
         public Container Build()
         {
-            // run this multithreaded to speed op the process
+            // we use reflection to get the first constructor and see what parameters are needed
+            // to create an instance. 
+            // run this once, multithreaded, and store the conclusion in the registratoin.
             this._registeredTypes.AsParallel().ForAll(f => f.AnalyzeDependencies());
             // create a dictionary for fast lookups
             var registrations = this._registeredTypes.ToDictionary(f => f.RegisteredType);
