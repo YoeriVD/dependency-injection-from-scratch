@@ -6,39 +6,25 @@ namespace InjectionByExample
 {
     public class Container
     {
-        private readonly IDictionary<Type, InjectionFactory> _factories;
-        private readonly IDictionary<Type, object> _instances = new Dictionary<Type, object>();
+        private readonly IDictionary<Type, Registration> _registrations;
         public Container Parent { get; private set; }
+        private IActivator[] _activators = new IActivator[] {
+            new NewInstanceActivator(),
+            new InstancePerContainerActivator(),
+            new SingleInstanceActivator()
+            };
 
-        public Container(IDictionary<Type, InjectionFactory> factories, Container parent = null)
+        public Container(IDictionary<Type, Registration> registrations, Container parent = null)
         {
-            _factories = factories;
+            _registrations = registrations;
             this.Parent = parent;
         }
         public object Resolve(Type t)
         {
-            if (this.Parent != null && this.Parent.HasInstance(t))
-            {
-                Console.WriteLine($"Container: Type already created by Parent");
-                var parentInstance = this.Parent.Resolve(t);
-                return parentInstance;
-            }
-            if (this._instances.ContainsKey(t))
-            {
-                var existing = this._instances[t];
-                Console.WriteLine($"Container: Type already created, returning instance {existing}");
-                return existing;
-            }
-
-            Console.WriteLine($"Container: resolving instance for {t.Name}");
-            if (!_factories.ContainsKey(t)) throw new Exception($"Type {t.Name} is not registered.");
-
-            var factory = _factories[t];
-            Console.WriteLine($"Container: Concrete type for {t.Name} is {factory.ConcreteType.Name} with lifetime {factory.Lifetime}");
-
-            var instance = factory.CreateInstance(this);
-            Console.WriteLine($"Container: instance created {instance}");
-            if (factory.Lifetime == Lifetime.InstancePerContainer) this._instances.Add(t, instance);
+            if (!_registrations.ContainsKey(t)) throw new Exception($"Type {t.Name} is not registered.");
+            var registration = _registrations[t];
+            var activator = _activators.First(act => act.ForLifeTime == registration.Lifetime);
+            var instance = activator.CreateInstance(this, registration);
             return instance;
         }
 
@@ -50,11 +36,15 @@ namespace InjectionByExample
 
         public Container CreateChild()
         {
-            return new Container(this._factories, this);
+            return new Container(this._registrations, this);
         }
         public bool HasInstance(Type t)
         {
-            return this._instances.ContainsKey(t);
+            return this._activators
+            .OfType<InstancePerContainerActivator>()
+            .SingleOrDefault()
+            ?.HasInstance(t)
+            ?? false;
         }
     }
 }

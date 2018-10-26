@@ -8,7 +8,7 @@ namespace InjectionByExample
 {
     public class ContainerBuilder
     {
-        private List<InjectionFactory> _registeredTypes = new List<InjectionFactory>();
+        private List<Registration> _registeredTypes = new List<Registration>();
 
         public void Register<T>(Lifetime lifetime = Lifetime.NewInstance) where T : class
         {
@@ -16,14 +16,17 @@ namespace InjectionByExample
         }
         public void Register<ToResolve, ToCreate>(Lifetime lifetime = Lifetime.NewInstance) where ToCreate : class
         {
-            var factory = new InjectionFactory(typeof(ToResolve), typeof(ToCreate), lifetime);
+            var factory = new Registration(typeof(ToResolve), typeof(ToCreate), lifetime);
             this._registeredTypes.Add(factory);
         }
 
         public Container Build()
         {
-            Task.WhenAll(this._registeredTypes.Select(f => f.AnalyzeDependencies())).Wait();
-            return new Container(this._registeredTypes.ToDictionary(f => f.RegisteredType));
+            // run this multithreaded to speed op the process
+            this._registeredTypes.AsParallel().ForAll(f => f.AnalyzeDependencies());
+            // create a dictionary for fast lookups
+            var registrations = this._registeredTypes.ToDictionary(f => f.RegisteredType);
+            return new Container(registrations);
         }
     }
 }
