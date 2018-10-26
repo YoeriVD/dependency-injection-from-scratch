@@ -16,8 +16,8 @@ namespace InjectionByExample
         }
         public void Register<ToResolve, ToCreate>(Lifetime lifetime = Lifetime.NewInstance) where ToCreate : class
         {
-            var factory = new Registration(typeof(ToResolve), typeof(ToCreate), lifetime);
-            this._registeredTypes.Add(factory);
+            var registration = new Registration(typeof(ToResolve), typeof(ToCreate), lifetime);
+            this._registeredTypes.Add(registration);
         }
 
         public Container Build()
