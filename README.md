@@ -1,7 +1,7 @@
 # dependency-injection-from-scratch
 
 To prove a point how easy it is to write a dependency injection container.
-Start of in `Program.cs` and hopefully the comments explain everything.
+Start in `Program.cs` and hopefully the comments explain everything.
 
 ## Run
 
