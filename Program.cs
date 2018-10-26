@@ -14,7 +14,7 @@ namespace InjectionByExample
             var containerBuilder = new ContainerBuilder();
             /**
             * Next up, I will instruct the builder which types I want it to be able to create.
-            * Eg.!-- 'if a request to resolve type X comes in, create an instance of this type'
+            * Eg. 'if a request to resolve type X comes in, create an instance of this type'
             * As an extra, we can also instruct to container to return
             * the same instance as a previous resolve, or create a new one every time.
             */
