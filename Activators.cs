@@ -1,4 +1,4 @@
-2using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,7 +8,7 @@ namespace InjectionByExample
     {
         NewInstance = 0,
         InstancePerContainer = 1,
-        SingleInstance = 3
+        SingleInstance = 2
     }
     public interface IActivator
     {
