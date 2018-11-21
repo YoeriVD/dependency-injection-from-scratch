@@ -42,7 +42,7 @@ namespace InjectionByExample
             if (container.Parent.HasInstance(factory.RegisteredType)) return container.Parent.Resolve(factory.RegisteredType);
             if (_instances.ContainsKey(factory.RegisteredType)) return _instances[factory.RegisteredType];
             Console.WriteLine($"InstancePerContainerActivator: creating new instance for {factory.RegisteredType.Name}");
-            var parameters = factory.ConstructorDepencencies.Select(dep => container.Resolve(dep)).ToArray();
+            var parameters = factory.ConstructorDepencencies.Select(container.Resolve).ToArray();
             var instance = Activator.CreateInstance(factory.ConcreteType, parameters);
             this._instances.Add(factory.RegisteredType, instance);
             return instance;
@@ -52,7 +52,7 @@ namespace InjectionByExample
     }
     /*
     Small difference with above: an activator is unique per container. So for single instance the above logic won't work.
-    That's whay we store the instance in the (shared) InjectionFactory. This way every container can access the instance.
+    That's why we store the instance in the (shared) InjectionFactory. This way every container can access the instance.
      */
     public class SingleInstanceActivator : IActivator
     {
@@ -61,7 +61,7 @@ namespace InjectionByExample
         {
             if (factory.SingleInstance != null) return factory.SingleInstance;
             Console.WriteLine($"SingleInstanceActivator: creating new instance for {factory.RegisteredType.Name}");
-            var parameters = factory.ConstructorDepencencies.Select(dep => container.Resolve(dep)).ToArray();
+            var parameters = factory.ConstructorDepencencies.Select(container.Resolve).ToArray();
             var instance = Activator.CreateInstance(factory.ConcreteType, parameters);
             factory.SingleInstance = instance;
             return instance;

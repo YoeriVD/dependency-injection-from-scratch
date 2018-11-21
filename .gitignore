@@ -4,11 +4,12 @@ project.lock.json
 .DS_Store
 *.pyc
 nupkg/
-
+.idea
 # Visual Studio Code
 .vscode
 
 # User-specific files
+
 *.suo
 *.user
 *.userosscache
