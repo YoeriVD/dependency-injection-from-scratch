@@ -11,33 +11,33 @@ namespace InjectionByExample.Tests
     {
         ContainerBuilder containerBuilder = new ContainerBuilder();
 
-        [TestMethod()]
-        public void RegisterOneGenericType()
+        public void Register_One_GenericType_Parameter()
         {
             containerBuilder.Register<Driver>();
+        }
 
-            Type t = containerBuilder.GetType();
-            Assert.IsInstanceOfType(containerBuilder, t);
+        public void Register_Two_GenericType_Parameter()
+        {
+            containerBuilder.Register<ICar, Car>(Lifetime.InstancePerContainer);
+            containerBuilder.Register<IEngine, Engine>(Lifetime.SingleInstance);
         }
 
         [TestMethod()]
-        public void RegisterTwoGenericType()
+        public void Build_And_Resolve_All()
         {
-            containerBuilder.Register<Driver, Driver>();
-
-            Type t = containerBuilder.GetType();
-            Assert.IsInstanceOfType(containerBuilder, t);
-        }
-
-        [TestMethod()]
-        public void BuildTest()
-        {
-            containerBuilder.Register<Driver>();
-
+            Register_One_GenericType_Parameter();
+            Register_Two_GenericType_Parameter();
             var container = containerBuilder.Build();
 
-            Type t = container.GetType();
-            Assert.IsInstanceOfType(container, t);
+            var instanceIEngine = container.Resolve<IEngine>();
+            Assert.IsInstanceOfType(instanceIEngine, typeof(Engine));
+
+            var childContainer = container.CreateChild();
+            var instanceICar = childContainer.Resolve<ICar>();
+            Assert.IsInstanceOfType(instanceICar, typeof(Car));
+
+            var instanceDrive = childContainer.Resolve<Driver>();
+            Assert.IsInstanceOfType(instanceDrive, typeof(Driver));
         }
     }
 }

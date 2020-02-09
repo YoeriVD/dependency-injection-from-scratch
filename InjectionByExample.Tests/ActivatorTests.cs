@@ -17,21 +17,8 @@ namespace InjectionByExample.Tests
             new Registration(typeof(IEngine), typeof(Engine), Lifetime.SingleInstance)
         };
 
-        Container container;
-
-        public ActivatorTests()
-        {
-            var containerBuilder = new ContainerBuilder();
-
-            containerBuilder.Register<Driver>();
-            containerBuilder.Register<ICar, Car>(Lifetime.InstancePerContainer);
-            containerBuilder.Register<IEngine, Engine>(Lifetime.SingleInstance);
-
-            container = containerBuilder.Build();
-        }
-
         [TestMethod()]
-        public void CreateInstanceTest()
+        public void Check_Lifetime_With_RegisteredType()
         {
             foreach (var reg in registrations)
             {
