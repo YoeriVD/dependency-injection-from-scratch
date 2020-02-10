@@ -2,9 +2,9 @@
 
 namespace InjectionByExample
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Console.WriteLine("Creating container");
             /**
@@ -36,10 +36,7 @@ namespace InjectionByExample
                 Console.WriteLine(container.Resolve<IEngine>());
                 Console.WriteLine("------------CHILD--------------");
                 var childContainer = container.CreateChild();
-                for (var y = 0; y < 2; y++)
-                {
-                    Console.WriteLine(childContainer.Resolve<Driver>());
-                }
+                for (var y = 0; y < 2; y++) Console.WriteLine(childContainer.Resolve<Driver>());
             }
         }
     }

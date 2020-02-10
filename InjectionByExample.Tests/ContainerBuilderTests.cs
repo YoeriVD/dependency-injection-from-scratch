@@ -1,15 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using InjectionByExample;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace InjectionByExample.Tests
 {
-    [TestClass()]
+    [TestClass]
     public class ContainerBuilderTests
     {
-        ContainerBuilder containerBuilder = new ContainerBuilder();
+        private readonly ContainerBuilder containerBuilder = new ContainerBuilder();
 
         public void Register_One_GenericType_Parameter()
         {
@@ -22,7 +18,7 @@ namespace InjectionByExample.Tests
             containerBuilder.Register<IEngine, Engine>(Lifetime.SingleInstance);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Build_And_Resolve_All()
         {
             Register_One_GenericType_Parameter();

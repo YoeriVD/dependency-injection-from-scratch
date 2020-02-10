@@ -7,19 +7,22 @@ namespace InjectionByExample
     public class Container
     {
         private readonly IDictionary<Type, Registration> _registrations;
-        public Container Parent { get; private set; }
 
-        private IActivator[] _activators = new IActivator[] {
+        private readonly IActivator[] _activators =
+        {
             new NewInstanceActivator(),
             new InstancePerContainerActivator(),
             new SingleInstanceActivator()
-            };
+        };
 
         public Container(IDictionary<Type, Registration> registrations, Container parent = null)
         {
             _registrations = registrations;
-            this.Parent = parent;
+            Parent = parent;
         }
+
+        public Container Parent { get; }
+
         public object Resolve(Type t)
         {
             if (!_registrations.ContainsKey(t)) throw new Exception($"Type {t.Name} is not registered.");
@@ -36,7 +39,7 @@ namespace InjectionByExample
         public T Resolve<T>()
         {
             var t = typeof(T);
-            return (T)this.Resolve(t);
+            return (T) Resolve(t);
         }
 
         /*
@@ -45,7 +48,7 @@ namespace InjectionByExample
          */
         public Container CreateChild()
         {
-            return new Container(this._registrations, this);
+            return new Container(_registrations, this);
         }
 
         /*
@@ -54,11 +57,11 @@ namespace InjectionByExample
          */
         public bool HasInstance(Type t)
         {
-            return this._activators
-            .OfType<InstancePerContainerActivator>()
-            .SingleOrDefault()
-            ?.HasInstance(t)
-            ?? false;
+            return _activators
+                       .OfType<InstancePerContainerActivator>()
+                       .SingleOrDefault()
+                       ?.HasInstance(t)
+                   ?? false;
         }
     }
 }

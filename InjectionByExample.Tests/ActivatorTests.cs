@@ -1,27 +1,22 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using InjectionByExample;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
+﻿using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace InjectionByExample.Tests
 {
-    [TestClass()]
+    [TestClass]
     public class ActivatorTests
     {
-        IList<Registration> registrations = new List<Registration>()
+        private readonly IList<Registration> registrations = new List<Registration>
         {
-            new Registration(typeof(Driver), typeof(Driver), Lifetime.NewInstance),
+            new Registration(typeof(Driver), typeof(Driver)),
             new Registration(typeof(ICar), typeof(Car), Lifetime.InstancePerContainer),
             new Registration(typeof(IEngine), typeof(Engine), Lifetime.SingleInstance)
         };
 
-        [TestMethod()]
+        [TestMethod]
         public void Check_Lifetime_With_RegisteredType()
         {
             foreach (var reg in registrations)
-            {
                 switch (reg.Lifetime)
                 {
                     case Lifetime.NewInstance:
@@ -34,7 +29,6 @@ namespace InjectionByExample.Tests
                         Assert.AreSame(reg.RegisteredType, typeof(IEngine));
                         break;
                 }
-            }
         }
     }
 }

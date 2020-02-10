@@ -6,9 +6,9 @@ namespace InjectionByExample
 
     public class Car : ICar
     {
-        private static int InstanceCount = 0;
+        private static int InstanceCount;
         private readonly IEngine engine;
-        private int _instanceId;
+        private readonly int _instanceId;
 
         public Car(IEngine engine)
         {
@@ -17,14 +17,17 @@ namespace InjectionByExample
             this.engine = engine;
         }
 
-        public override string ToString() => $"This car has id {this._instanceId} and engine: {engine}";
+        public override string ToString()
+        {
+            return $"This car has id {_instanceId} and engine: {engine}";
+        }
     }
 
     public class Driver
     {
-        private static int InstanceCount = 0;
+        private static int InstanceCount;
         private readonly ICar car;
-        private int _instanceId;
+        private readonly int _instanceId;
 
         public Driver(ICar car)
         {
@@ -33,7 +36,10 @@ namespace InjectionByExample
             this.car = car;
         }
 
-        public override string ToString() => $"This driver with id {this._instanceId} has car: {this.car}";
+        public override string ToString()
+        {
+            return $"This driver with id {_instanceId} has car: {car}";
+        }
     }
 
     public interface IEngine
@@ -42,8 +48,8 @@ namespace InjectionByExample
 
     public class Engine : IEngine
     {
-        private static int InstanceCount = 0;
-        private int _instanceId;
+        private static int InstanceCount;
+        private readonly int _instanceId;
 
         public Engine()
         {
@@ -51,6 +57,9 @@ namespace InjectionByExample
             _instanceId = InstanceCount;
         }
 
-        public override string ToString() => $"Engine with id {this._instanceId}";
+        public override string ToString()
+        {
+            return $"Engine with id {_instanceId}";
+        }
     }
 }

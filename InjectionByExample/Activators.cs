@@ -38,21 +38,26 @@ namespace InjectionByExample
     */
     public class InstancePerContainerActivator : IActivator
     {
-        public Lifetime ForLifeTime { get; } = Lifetime.InstancePerContainer;
         private readonly IDictionary<Type, object> _instances = new Dictionary<Type, object>();
+        public Lifetime ForLifeTime { get; } = Lifetime.InstancePerContainer;
 
         public object CreateInstance(Container container, Registration factory)
         {
-            if (container.Parent.HasInstance(factory.RegisteredType)) return container.Parent.Resolve(factory.RegisteredType);
+            if (container.Parent.HasInstance(factory.RegisteredType))
+                return container.Parent.Resolve(factory.RegisteredType);
             if (_instances.ContainsKey(factory.RegisteredType)) return _instances[factory.RegisteredType];
-            Console.WriteLine($"InstancePerContainerActivator: creating new instance for {factory.RegisteredType.Name}");
+            Console.WriteLine(
+                $"InstancePerContainerActivator: creating new instance for {factory.RegisteredType.Name}");
             var parameters = factory.ConstructorDepencencies.Select(container.Resolve).ToArray();
             var instance = Activator.CreateInstance(factory.ConcreteType, parameters);
-            this._instances.Add(factory.RegisteredType, instance);
+            _instances.Add(factory.RegisteredType, instance);
             return instance;
         }
 
-        internal bool HasInstance(Type t) => this._instances.ContainsKey(t);
+        internal bool HasInstance(Type t)
+        {
+            return _instances.ContainsKey(t);
+        }
     }
 
     /*

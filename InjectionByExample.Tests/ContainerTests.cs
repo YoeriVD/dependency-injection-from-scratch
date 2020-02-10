@@ -1,15 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using InjectionByExample;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace InjectionByExample.Tests
 {
-    [TestClass()]
+    [TestClass]
     public class ContainerTests
     {
-        Container container;
+        private readonly Container container;
 
         public ContainerTests()
         {
@@ -22,13 +18,13 @@ namespace InjectionByExample.Tests
             container = containerBuilder.Build();
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Container_With_Null_Parent()
         {
             Assert.IsNull(container.Parent);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Container_With_Not_Null_Parent()
         {
             var childContainer = container.CreateChild();
@@ -36,7 +32,7 @@ namespace InjectionByExample.Tests
             Assert.IsNotNull(childContainer.Parent);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Resolve_With_A_Parameter_Type()
         {
             var instance = container.Resolve(typeof(IEngine));
@@ -44,14 +40,14 @@ namespace InjectionByExample.Tests
             Assert.IsInstanceOfType(instance, typeof(Engine));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Resolve_With_A_Generic_Type()
         {
             var instance = container.Resolve<IEngine>();
             Assert.IsInstanceOfType(instance, typeof(Engine));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Resolve_Instance_Per_Container()
         {
             var childContainer = container.CreateChild();
@@ -66,7 +62,7 @@ namespace InjectionByExample.Tests
             Assert.IsTrue(instance2);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void CreateChild_Test()
         {
             var childContainer = container.CreateChild();
@@ -74,7 +70,7 @@ namespace InjectionByExample.Tests
             Assert.IsInstanceOfType(childContainer, typeof(Container));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void ChildContainer_Should_Share_Parent_Instance_For_InstancePerContainer()
         {
             var childContainer = container.CreateChild();
