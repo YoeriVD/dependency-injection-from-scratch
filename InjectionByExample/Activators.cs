@@ -10,17 +10,20 @@ namespace InjectionByExample
         InstancePerContainer = 1,
         SingleInstance = 2
     }
+
     public interface IActivator
     {
         Lifetime ForLifeTime { get; }
         object CreateInstance(Container container, Registration factory);
     }
+
     /**
     The easiest to implement. Just create a new instance for every dependency and then create the requested type.
      */
     public class NewInstanceActivator : IActivator
     {
         public Lifetime ForLifeTime { get; } = Lifetime.NewInstance;
+
         public object CreateInstance(Container container, Registration factory)
         {
             Console.WriteLine($"NewInstanceActivator: creating new instance for {factory.RegisteredType.Name}");
@@ -29,6 +32,7 @@ namespace InjectionByExample
             return instance;
         }
     }
+
     /**
     Same logic as above, but keep a reference to every created instance. This way we can return the same instance as before.
     */
@@ -50,6 +54,7 @@ namespace InjectionByExample
 
         internal bool HasInstance(Type t) => this._instances.ContainsKey(t);
     }
+
     /*
     Small difference with above: an activator is unique per container. So for single instance the above logic won't work.
     That's why we store the instance in the (shared) InjectionFactory. This way every container can access the instance.
@@ -57,6 +62,7 @@ namespace InjectionByExample
     public class SingleInstanceActivator : IActivator
     {
         public Lifetime ForLifeTime { get; } = Lifetime.SingleInstance;
+
         public object CreateInstance(Container container, Registration factory)
         {
             if (factory.SingleInstance != null) return factory.SingleInstance;

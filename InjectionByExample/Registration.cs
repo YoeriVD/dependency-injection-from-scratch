@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace InjectionByExample
 {
@@ -19,6 +18,7 @@ namespace InjectionByExample
             this.ConcreteType = concreteType;
             this.Lifetime = lifetime;
         }
+
         internal void AnalyzeDependencies()
         {
             var firstConstructor = this.ConcreteType.GetConstructors().FirstOrDefault();

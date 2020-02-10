@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 
 namespace InjectionByExample
 {
@@ -14,6 +11,7 @@ namespace InjectionByExample
         {
             this.Register<T, T>(lifetime);
         }
+
         public void Register<ToResolve, ToCreate>(Lifetime lifetime = Lifetime.NewInstance) where ToCreate : class
         {
             var registration = new Registration(typeof(ToResolve), typeof(ToCreate), lifetime);
@@ -24,7 +22,7 @@ namespace InjectionByExample
         {
             // we use reflection to get the first constructor and see what parameters are needed
             // to create an instance. 
-            // run this once, multithreaded, and store the conclusion in the registratoin.
+            // run this once, multithreaded, and store the conclusion in the registration.
             this._registeredTypes.AsParallel().ForAll(f => f.AnalyzeDependencies());
             // create a dictionary for fast lookups
             var registrations = this._registeredTypes.ToDictionary(f => f.RegisteredType);

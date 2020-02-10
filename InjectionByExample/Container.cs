@@ -8,6 +8,7 @@ namespace InjectionByExample
     {
         private readonly IDictionary<Type, Registration> _registrations;
         public Container Parent { get; private set; }
+
         private IActivator[] _activators = new IActivator[] {
             new NewInstanceActivator(),
             new InstancePerContainerActivator(),
